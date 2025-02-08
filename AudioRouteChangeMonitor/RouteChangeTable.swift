@@ -11,7 +11,6 @@ struct RouteChangeTable: View {
     @Binding var routeChanges: [AudioRouteChange]
     var body: some View {
         Table(routeChanges) {
-//            TableColumn("Date", value: \.createdAt.description)
             TableColumn("Reason", value: \.reason.description)
             TableColumn("Previous Input") { routeChange in
                 PortColumn(routeChange.previousRoute.inputs.first)

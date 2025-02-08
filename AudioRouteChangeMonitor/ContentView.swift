@@ -16,13 +16,13 @@ struct ContentView: View {
             RouteChangeTable(routeChanges: $audioRouteManager.routeChanges)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
-                        Button("Export") {
-                            shareJSON()
+                        Button("Clear") {
+                            audioRouteManager.routeChanges = []
                         }
                     }
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button("Clear") {
-                            audioRouteManager.routeChanges = []
+                        Button("Export") {
+                            shareJSON()
                         }
                     }
                 }
