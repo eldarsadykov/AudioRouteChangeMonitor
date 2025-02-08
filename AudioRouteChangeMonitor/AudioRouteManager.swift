@@ -20,29 +20,40 @@ struct AudioRouteChange: Identifiable, Encodable, Hashable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(createdAt, forKey: .createdAt)
-        try container.encode(id, forKey: .id)
-        try container.encode(reason.rawValue, forKey: .reason)
+        try container.encode(reason.description, forKey: .reason)
         try container.encode(RouteDescription(from: previousRoute), forKey: .previousRoute)
         try container.encode(RouteDescription(from: currentRoute), forKey: .currentRoute)
     }
 
     // Coding keys
     enum CodingKeys: String, CodingKey {
-        case createdAt, id, reason, previousRoute, currentRoute
+        case createdAt, reason, previousRoute, currentRoute
     }
 }
 
 // Helper struct to make AVAudioSessionRouteDescription encodable
 struct RouteDescription: Encodable {
-    var inputs: [String]
-    var outputs: [String]
+    var inputs: [PortDescription]
+    var outputs: [PortDescription]
 
     init(from route: AVAudioSessionRouteDescription) {
-        self.inputs = route.inputs.map { $0.portName }
-        self.outputs = route.outputs.map { $0.portName }
+        self.inputs = route.inputs.map { PortDescription(from: $0) }
+        self.outputs = route.outputs.map { PortDescription(from: $0) }
     }
 }
 
+// Encodable struct for AVAudioSessionPortDescription
+struct PortDescription: Encodable {
+    var portName: String
+    var portType: String
+    var uid: String
+
+    init(from port: AVAudioSessionPortDescription) {
+        self.portName = port.portName
+        self.portType = port.portType.rawValue
+        self.uid = port.uid
+    }
+}
 
 extension AudioRouteChange: Equatable {
     static func == (lhs: Self, rhs: Self) -> Bool {

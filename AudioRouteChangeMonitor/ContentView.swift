@@ -23,8 +23,10 @@ struct ContentView: View {
                         }
                     }
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button("Export") {
+                        Button {
                             shareJSON()
+                        } label: {
+                            Text("Export")
                         }
                     }
                 }
