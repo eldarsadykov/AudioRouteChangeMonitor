@@ -6,68 +6,28 @@
 //
 
 import AVFoundation
-import SwiftUI
 import AVKit
+import SwiftUI
 
 struct ContentView: View {
     @StateObject var audioRouteManager = AudioRouteManager()
     var body: some View {
-        HStack {
-            VStack {
-                HStack {
-                    Text("Log")
-                    Spacer()
-                    Button("Category") {
-                        audioRouteManager.reportCategory()
+        NavigationStack {
+            RouteChangeTable(routeChanges: $audioRouteManager.routeChanges)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button("Export") {
+                            shareJSON()
+                        }
                     }
-                    Spacer()
-                    Button("Clear") {
-                        audioRouteManager.routeChanges = []
-                    }
-                }
-                .padding()
-                RouteChangeTable(routeChanges: $audioRouteManager.routeChanges)
-            }
-            VStack {
-                HStack {
-                    Text("Inputs")
-                    Spacer()
-                    Button("Refresh") {
-                        audioRouteManager.refreshAudioInputs()
-                    }
-                }
-                .padding()
-                List {
-                    Section("AudioSession") {
-                        ForEach(audioRouteManager.audioInputs, id: \.self) { audioInput in
-                            Text(audioInput)
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("Clear") {
+                            audioRouteManager.routeChanges = []
                         }
                     }
                 }
-            }
-            .frame(maxWidth: 200)
+                .navigationTitle("Audio Route Changes")
         }
-//        HStack {
-//            VStack {
-//                HStack {
-//                    Text("Log")
-//                    Spacer()
-//                    Button("Clear") {
-//                        audioRouteManager.routeChanges = []
-//                    }
-//                }
-//                .padding()
-//                List {
-//                    Section("Messages") {
-//                        ForEach(audioRouteManager.routeChanges) { routeChange in
-//                            let reason = routeChange.reason
-//                            Text("Reason \(reason.rawValue) – \(reason.description)")
-//                        }
-//                    }
-//                }
-//            }
-
-//        }
     }
 
     func getAvailableCaptureDevices() -> [AVCaptureDevice] {
@@ -86,6 +46,21 @@ struct ContentView: View {
 
         // Return the discovered devices
         return discoverySession.devices
+    }
+
+    func shareJSON() {
+        guard let jsonData = try? JSONEncoder().encode(audioRouteManager.routeChanges),
+              let jsonString = String(data: jsonData, encoding: .utf8) else {
+            print("Failed to encode JSON")
+            return
+        }
+
+        let activityVC = UIActivityViewController(activityItems: [jsonString], applicationActivities: nil)
+
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let rootVC = windowScene.windows.first?.rootViewController {
+            rootVC.present(activityVC, animated: true, completion: nil)
+        }
     }
 }
 

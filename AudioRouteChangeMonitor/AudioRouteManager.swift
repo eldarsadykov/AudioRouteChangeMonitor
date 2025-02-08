@@ -9,13 +9,41 @@ import AVFoundation
 import Foundation
 import MediaPlayer
 
-struct AudioRouteChange: Identifiable {
+struct AudioRouteChange: Identifiable, Encodable {
     let createdAt = Date()
     let id = UUID()
     var reason: AVAudioSession.RouteChangeReason
     var previousRoute: AVAudioSessionRouteDescription
     var currentRoute: AVAudioSessionRouteDescription
+
+    // Custom encoding method
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(createdAt, forKey: .createdAt)
+        try container.encode(id, forKey: .id)
+        try container.encode(reason.rawValue, forKey: .reason)
+        try container.encode(RouteDescription(from: previousRoute), forKey: .previousRoute)
+        try container.encode(RouteDescription(from: currentRoute), forKey: .currentRoute)
+    }
+
+    // Coding keys
+    enum CodingKeys: String, CodingKey {
+        case createdAt, id, reason, previousRoute, currentRoute
+    }
 }
+
+// Helper struct to make AVAudioSessionRouteDescription encodable
+struct RouteDescription: Encodable {
+    var inputs: [String]
+    var outputs: [String]
+
+    init(from route: AVAudioSessionRouteDescription) {
+        self.inputs = route.inputs.map { $0.portName }
+        self.outputs = route.outputs.map { $0.portName }
+    }
+}
+
 
 extension AudioRouteChange: Equatable {
     static func == (lhs: Self, rhs: Self) -> Bool {
