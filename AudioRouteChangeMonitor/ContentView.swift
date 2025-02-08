@@ -23,10 +23,12 @@ struct ContentView: View {
                             audioRouteManager.routeChanges = []
                         }
                     }
-                    if let jsonData = try? JSONEncoder().encode(audioRouteManager.routeChanges),
-                       let jsonString = String(data: jsonData, encoding: .utf8) {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            ShareLink(item: jsonString)
+                    if let jsonData = try? JSONEncoder().encode(audioRouteManager.routeChanges) {
+                        let prettyJsonData = try? JSONSerialization.data(withJSONObject: try JSONSerialization.jsonObject(with: jsonData), options: .prettyPrinted)
+                        if let prettyString = prettyJsonData.flatMap({ String(data: $0, encoding: .utf8) }) {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                ShareLink(item: prettyString)
+                            }
                         }
                     }
                 }

@@ -15,10 +15,15 @@ struct AudioRouteChangeView: View {
     var previousOutput: AVAudioSessionPortDescription? { routeChange.previousRoute.outputs.first }
     var currentInput: AVAudioSessionPortDescription? { routeChange.currentRoute.inputs.first }
     var currentOutput: AVAudioSessionPortDescription? { routeChange.currentRoute.outputs.first }
-    
+
     var body: some View {
         Form {
-            Text("Reason: \(routeChange.reason.description)")
+            Section("Created At") {
+                Text(routeChange.createdAt.description)
+            }
+            Section("Reason") {
+                Text(routeChange.reason.description)
+            }
             AudioRouteChangePortView(label: "Previous Input", port: previousInput)
             AudioRouteChangePortView(label: "Previous Output", port: previousOutput)
             AudioRouteChangePortView(label: "Current Input", port: currentInput)
