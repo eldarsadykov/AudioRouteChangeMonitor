@@ -9,8 +9,9 @@ import SwiftUI
 
 struct RouteChangeTable: View {
     @Binding var routeChanges: [AudioRouteChange]
+    @Binding var selection: AudioRouteChange.ID?
     var body: some View {
-        Table(routeChanges) {
+        Table(routeChanges, selection: $selection) {
             TableColumn("Reason", value: \.reason.description)
             TableColumn("Previous Input") { routeChange in
                 PortColumn(routeChange.previousRoute.inputs.first)

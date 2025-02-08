@@ -9,7 +9,7 @@ import AVFoundation
 import Foundation
 import MediaPlayer
 
-struct AudioRouteChange: Identifiable, Encodable {
+struct AudioRouteChange: Identifiable, Encodable, Hashable {
     let createdAt = Date()
     let id = UUID()
     var reason: AVAudioSession.RouteChangeReason

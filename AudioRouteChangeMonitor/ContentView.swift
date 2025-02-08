@@ -11,9 +11,11 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var audioRouteManager = AudioRouteManager()
+    @State private var path = [AudioRouteChange]()
+    @State private var selection: AudioRouteChange.ID?
     var body: some View {
-        NavigationStack {
-            RouteChangeTable(routeChanges: $audioRouteManager.routeChanges)
+        NavigationStack(path: $path) {
+            RouteChangeTable(routeChanges: $audioRouteManager.routeChanges, selection: $selection)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Button("Clear") {
@@ -27,6 +29,20 @@ struct ContentView: View {
                     }
                 }
                 .navigationTitle("Audio Route Changes")
+                .navigationDestination(for: AudioRouteChange.self) { routeChange in
+                    AudioRouteChangeView(routeChange: routeChange)
+                        .onDisappear() {
+                            selection = nil
+                        }
+                }
+                .onChange(of: selection) { _, newValue in
+                    if let newValue,
+                       let audioRouteChange = (audioRouteManager.routeChanges.first { routeChange in
+                           routeChange.id == newValue
+                       }) {
+                        path.append(audioRouteChange)
+                    }
+                }
         }
     }
 
