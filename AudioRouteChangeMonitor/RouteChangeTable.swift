@@ -12,7 +12,15 @@ struct RouteChangeTable: View {
     @Binding var selection: AudioRouteChange.ID?
     var body: some View {
         Table(routeChanges, selection: $selection) {
-            TableColumn("Reason", value: \.reason.description)
+            TableColumn("Reason") { routeChange in
+                VStack {
+                    Text(routeChange.reason.description)
+                        .font(.body)
+                    Text(routeChange.createdAt.description)
+                        .foregroundStyle(.secondary)
+                }
+                .font(.caption)
+            }
             TableColumn("Previous Input") { routeChange in
                 PortColumn(routeChange.previousRoute.inputs.first)
             }

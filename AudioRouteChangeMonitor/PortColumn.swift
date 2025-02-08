@@ -16,17 +16,13 @@ struct PortColumn: View {
     }
 
     var body: some View {
-        if let port {
-            VStack(alignment: .leading) {
-                Text(port.portName)
-                    .font(.body)
-                Text("Type: " + port.portType.rawValue)
-                Text("UID: " + port.uid)
-            }
-            .font(.caption)
-        } else {
-            Text("No port")
+        VStack(alignment: .leading) {
+            Text(port?.portName ?? "N/A")
+                .font(.body)
+            Text("Type: " + (port?.portType.rawValue ?? "N/A"))
+            Text("UID: " + (port?.uid ?? "N/A"))
         }
+        .font(.caption)
     }
 }
 
