@@ -20,7 +20,14 @@ struct ContentView: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Button("Clear") {
-                            audioRouteManager.routeChanges = []
+                            isShowingClearWarning = true
+                        }
+                        .alert("Clear all route changes?", isPresented: $isShowingClearWarning) {
+                            Button(role: .destructive) {
+                                audioRouteManager.routeChanges = []
+                            } label: {
+                                Text("Clear all")
+                            }
                         }
                     }
                     if let jsonData = try? JSONEncoder().encode(audioRouteManager.routeChanges) {
