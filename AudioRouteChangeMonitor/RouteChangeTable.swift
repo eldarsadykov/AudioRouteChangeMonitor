@@ -13,7 +13,7 @@ struct RouteChangeTable: View {
     var body: some View {
         Table(routeChanges, selection: $selection) {
             TableColumn("Reason") { routeChange in
-                VStack {
+                VStack(alignment: .leading) {
                     Text(routeChange.reason.description)
                         .font(.body)
                     Text(routeChange.createdAt.description)
