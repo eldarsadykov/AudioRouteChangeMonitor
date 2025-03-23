@@ -16,6 +16,12 @@ struct AudioRouteChange: Identifiable, Encodable, Hashable {
     var previousRoute: AVAudioSessionRouteDescription
     var currentRoute: AVAudioSessionRouteDescription
 
+    init(_ reason: AVAudioSession.RouteChangeReason, _ previousRoute: AVAudioSessionRouteDescription, _ currentRoute: AVAudioSessionRouteDescription) {
+        self.reason = reason
+        self.previousRoute = previousRoute
+        self.currentRoute = currentRoute
+    }
+
     // Custom encoding method
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
@@ -37,8 +43,8 @@ struct RouteDescription: Encodable {
     var outputs: [PortDescription]
 
     init(from route: AVAudioSessionRouteDescription) {
-        self.inputs = route.inputs.map { PortDescription(from: $0) }
-        self.outputs = route.outputs.map { PortDescription(from: $0) }
+        inputs = route.inputs.map { PortDescription(from: $0) }
+        outputs = route.outputs.map { PortDescription(from: $0) }
     }
 }
 
@@ -49,9 +55,9 @@ struct PortDescription: Encodable {
     var uid: String
 
     init(from port: AVAudioSessionPortDescription) {
-        self.portName = port.portName
-        self.portType = port.portType.rawValue
-        self.uid = port.uid
+        portName = port.portName
+        portType = port.portType.rawValue
+        uid = port.uid
     }
 }
 
@@ -87,8 +93,7 @@ class AudioRouteManager: ObservableObject {
         NotificationCenter.default.addObserver(self, selector: #selector(handleRenderingModeChangeNotification), name: AVAudioSession.renderingModeChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleSilenceSecondaryAudioHintNotification), name: AVAudioSession.silenceSecondaryAudioHintNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleSpatialPlaybackCapabilitiesChangedNotification), name: AVAudioSession.spatialPlaybackCapabilitiesChangedNotification, object: nil)
-        
-        
+
         refreshAudioInputs()
     }
 
@@ -96,30 +101,37 @@ class AudioRouteManager: ObservableObject {
         print(audioSession.category)
         print(audioSession.categoryOptions)
     }
+
     @objc func handleInterruptionNotification(notification: Notification) {
         print("handleInterruptionNotification")
         print(notification.userInfo?.description ?? "No user info")
-    }    
+    }
+
     @objc func handleMediaServicesWereLostNotification(notification: Notification) {
         print("handleMediaServicesWereLostNotification")
         print(notification.userInfo?.description ?? "No user info")
     }
+
     @objc func handleMediaServicesWereResetNotification(notification: Notification) {
         print("handleMediaServicesWereResetNotification")
         print(notification.userInfo?.description ?? "No user info")
     }
+
     @objc func handleRenderingCapabilitiesChangeNotification(notification: Notification) {
         print("handleRenderingCapabilitiesChangeNotification")
         print(notification.userInfo?.description ?? "No user info")
     }
+
     @objc func handleRenderingModeChangeNotification(notification: Notification) {
         print("handleRenderingModeChangeNotification")
         print(notification.userInfo?.description ?? "No user info")
     }
+
     @objc func handleSilenceSecondaryAudioHintNotification(notification: Notification) {
         print("handleSilenceSecondaryAudioHintNotification")
         print(notification.userInfo?.description ?? "No user info")
     }
+
     @objc func handleSpatialPlaybackCapabilitiesChangedNotification(notification: Notification) {
         print("handleSpatialPlaybackCapabilitiesChangedNotification")
         print(notification.userInfo?.description ?? "No user info")
@@ -130,7 +142,7 @@ class AudioRouteManager: ObservableObject {
             portDescription.portName
         })
     }
-    
+
     func setCategory() {
         do {
             try audioSession.setCategory(
@@ -160,7 +172,7 @@ class AudioRouteManager: ObservableObject {
 
         let currentRoute = audioSession.currentRoute
 
-        let routeChange = AudioRouteChange(reason: reason, previousRoute: previousRoute, currentRoute: currentRoute)
+        let routeChange = AudioRouteChange(reason, previousRoute, currentRoute)
         routeChanges.append(routeChange)
         refreshAudioInputs()
     }
