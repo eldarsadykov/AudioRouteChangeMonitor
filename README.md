@@ -6,7 +6,7 @@ A developer tool for monitoring [audio route changes](https://developer.apple.co
 
 All route changes are recorded and viewable as a table on iPad or a list with expandable items on iPhone.
 
-The list can be cleared, imported and exported as a JSON file. 
+The list can be cleared, imported, and exported as a JSON file. 
 
 You can download the app from the App Store for basic monitoring once it becomes available or build it locally from this repository for more advanced debugging scenarios.
 
