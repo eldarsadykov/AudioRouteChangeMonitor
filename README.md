@@ -23,6 +23,10 @@ Understanding the precise order of audio route changes is crucial, as different 
 
 Contributions are welcome! Feel free to fork this repository and submit pull requests to enhance the app's functionality.
 
+## Credits
+
+GitHub SF Symbols: https://github.com/jeremieb/social-symbols.git
+
 ## Screenshots
 
 ![Simulator Screenshot - iPad Pro 13-inch (M4) - 2025-03-29 at 17 00 32](https://github.com/user-attachments/assets/98808b4e-575e-426c-b49d-d227373a012c)
