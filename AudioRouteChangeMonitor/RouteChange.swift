@@ -7,7 +7,7 @@
 
 import AVFoundation
 
-struct AudioRouteChange: Identifiable, Encodable, Hashable {
+struct RouteChange: Identifiable, Encodable, Hashable {
     let createdAt = Date()
     let id = UUID()
     var reasonDescription: String
@@ -30,22 +30,6 @@ struct AudioRouteChange: Identifiable, Encodable, Hashable {
 
     enum CodingKeys: String, CodingKey {
         case createdAt, reason, previousRoute, currentRoute
-    }
-}
-
-extension AudioRouteChange: Equatable {
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        let reasonsDescriptionsMatch = lhs.reasonDescription == rhs.reasonDescription
-        let previousRouteInputsMatch = lhs.previousRoute.inputs.first?.uid == rhs.previousRoute.inputs.first?.uid
-        let previousRouteOutputsMatch = lhs.previousRoute.outputs.first?.uid == rhs.previousRoute.outputs.first?.uid
-        let currentRouteInputsMatch = lhs.currentRoute.inputs.first?.uid == rhs.currentRoute.inputs.first?.uid
-        let currentRouteOutputsMatch = lhs.currentRoute.outputs.first?.uid == rhs.currentRoute.outputs.first?.uid
-        return
-            reasonsDescriptionsMatch &&
-            previousRouteInputsMatch &&
-            previousRouteOutputsMatch &&
-            currentRouteInputsMatch &&
-            currentRouteOutputsMatch
     }
 }
 

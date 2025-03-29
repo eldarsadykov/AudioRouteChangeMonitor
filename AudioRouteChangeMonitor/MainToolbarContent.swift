@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct RouteChangeTableToolbar: ToolbarContent {
+struct MainToolbarContent: ToolbarContent {
     @Binding var isShowingClearWarning: Bool
-    @Binding var routeChanges: [AudioRouteChange]
+    @Binding var routeChanges: [RouteChange]
     
     @Environment(\.openURL) private var openURL
     

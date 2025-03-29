@@ -8,8 +8,8 @@
 import AVFAudio
 import SwiftUI
 
-struct AudioRouteChangeView: View {
-    let routeChange: AudioRouteChange
+struct RouteChangeDetailView: View {
+    let routeChange: RouteChange
 
     var previousInput: PortDescription? { routeChange.previousRoute.inputs.first }
     var previousOutput: PortDescription? { routeChange.previousRoute.outputs.first }
@@ -24,15 +24,15 @@ struct AudioRouteChangeView: View {
             Section("Reason") {
                 Text(routeChange.reasonDescription)
             }
-            AudioRouteChangePortView(label: "Previous Input", port: previousInput)
-            AudioRouteChangePortView(label: "Previous Output", port: previousOutput)
-            AudioRouteChangePortView(label: "Current Input", port: currentInput)
-            AudioRouteChangePortView(label: "Current Output", port: currentOutput)
+            RouteChangeDetailPortView(label: "Previous Input", port: previousInput)
+            RouteChangeDetailPortView(label: "Previous Output", port: previousOutput)
+            RouteChangeDetailPortView(label: "Current Input", port: currentInput)
+            RouteChangeDetailPortView(label: "Current Output", port: currentOutput)
         }
     }
 }
 
-struct AudioRouteChangePortView: View {
+struct RouteChangeDetailPortView: View {
     let label: String
     let port: PortDescription?
     var body: some View {

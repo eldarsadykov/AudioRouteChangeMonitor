@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct RouteChangeTable: View {
-    @Binding var routeChanges: [AudioRouteChange]
-    @Binding var selection: AudioRouteChange.ID?
+struct RouteChangeTableView: View {
+    @Binding var routeChanges: [RouteChange]
+    @Binding var selection: RouteChange.ID?
     var body: some View {
         Table(routeChanges, selection: $selection) {
             TableColumn("Reason") { routeChange in

@@ -10,32 +10,34 @@ import AVKit
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var audioRouteManager = AudioRouteManager()
-    @State private var path = [AudioRouteChange]()
-    @State private var selection: AudioRouteChange.ID?
+    @StateObject var audioRouteManager = RouteManager()
+    @State private var path = [RouteChange]()
+    @State private var selection: RouteChange.ID?
     @State private var isShowingClearWarning = false
     var body: some View {
         NavigationStack(path: $path) {
-            RouteChangeTable(routeChanges: $audioRouteManager.routeChanges, selection: $selection)
+            RouteChangeTableView(routeChanges: $audioRouteManager.routeChanges, selection: $selection)
                 .toolbar {
-                    RouteChangeTableToolbar(isShowingClearWarning: $isShowingClearWarning,
-                                            routeChanges: $audioRouteManager.routeChanges)
+                    MainToolbarContent(isShowingClearWarning: $isShowingClearWarning,
+                                       routeChanges: $audioRouteManager.routeChanges)
                 }
                 .navigationTitle("Audio Route Changes")
-                .navigationDestination(for: AudioRouteChange.self) { routeChange in
-                    AudioRouteChangeView(routeChange: routeChange)
+                .navigationDestination(for: RouteChange.self) { routeChange in
+                    RouteChangeDetailView(routeChange: routeChange)
                         .onDisappear {
                             selection = nil
                         }
                 }
-                .onChange(of: selection) { newValue in
-                    if let newValue,
-                       let audioRouteChange = (audioRouteManager.routeChanges.first { routeChange in
-                           routeChange.id == newValue
-                       }) {
-                        path.append(audioRouteChange)
-                    }
-                }
+                .onChange(of: selection, perform: onSelectionChange)
+        }
+    }
+    
+    func onSelectionChange(_ newValue: RouteChange.ID?) {
+        if let newValue,
+           let audioRouteChange = (audioRouteManager.routeChanges.first { routeChange in
+               routeChange.id == newValue
+           }) {
+            path.append(audioRouteChange)
         }
     }
 }
