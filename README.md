@@ -22,3 +22,8 @@ Understanding the precise order of audio route changes is crucial, as different 
 ## Contribution
 
 Contributions are welcome! Feel free to fork this repository and submit pull requests to enhance the app's functionality.
+
+## Screenshots
+
+![IMG_0281](https://github.com/user-attachments/assets/4a256dd2-055f-4535-b6e9-0a01cba030f0)
+![IMG_0280](https://github.com/user-attachments/assets/02cba23e-5e22-4c19-b47a-228d88a0fc0c)
