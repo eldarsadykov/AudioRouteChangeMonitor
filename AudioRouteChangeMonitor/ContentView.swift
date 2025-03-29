@@ -14,6 +14,8 @@ struct ContentView: View {
     @State private var path = [AudioRouteChange]()
     @State private var selection: AudioRouteChange.ID?
     @State private var isShowingClearWarning = false
+    
+    @Environment(\.openURL) private var openURL
     var body: some View {
         NavigationStack(path: $path) {
             RouteChangeTable(routeChanges: $audioRouteManager.routeChanges, selection: $selection)
@@ -28,6 +30,15 @@ struct ContentView: View {
                             } label: {
                                 Text("Clear all")
                             }
+                        }
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            if let url = URL(string: "https://github.com/eldarsadykov/AudioRouteChangeMonitor") {
+                                openURL(url)
+                            }
+                        } label: {
+                            Label("GitHub", image: "github.fill")
                         }
                     }
                     if let jsonData = try? JSONEncoder().encode(audioRouteManager.routeChanges) {
