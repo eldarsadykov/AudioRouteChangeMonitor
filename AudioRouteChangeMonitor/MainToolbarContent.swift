@@ -10,9 +10,15 @@ import SwiftUI
 struct MainToolbarContent: ToolbarContent {
     @Binding var isShowingClearWarning: Bool
     @Binding var routeChanges: [RouteChange]
-    
+
     @Environment(\.openURL) private var openURL
-    
+
+    var prettyString: String? {
+        guard let jsonData = try? JSONEncoder().encode(routeChanges) else { return nil }
+        let prettyJsonData = try? JSONSerialization.data(withJSONObject: try JSONSerialization.jsonObject(with: jsonData), options: .prettyPrinted)
+        return prettyJsonData.flatMap({ String(data: $0, encoding: .utf8) })
+    }
+
     var body: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             Button("Clear") {
@@ -35,12 +41,9 @@ struct MainToolbarContent: ToolbarContent {
                 Label("GitHub", image: "github.fill")
             }
         }
-        if let jsonData = try? JSONEncoder().encode(routeChanges) {
-            let prettyJsonData = try? JSONSerialization.data(withJSONObject: try JSONSerialization.jsonObject(with: jsonData), options: .prettyPrinted)
-            if let prettyString = prettyJsonData.flatMap({ String(data: $0, encoding: .utf8) }) {
-                ToolbarItem(placement: .topBarTrailing) {
-                    ShareLink(item: prettyString)
-                }
+        if let prettyString {
+            ToolbarItem(placement: .topBarTrailing) {
+                ShareLink(item: prettyString)
             }
         }
     }
