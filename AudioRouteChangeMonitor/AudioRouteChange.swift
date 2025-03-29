@@ -70,3 +70,29 @@ struct PortDescription: Encodable {
         uid = port.uid
     }
 }
+
+extension AVAudioSession.RouteChangeReason {
+    public var description: String {
+        switch self {
+        case .unknown:
+            return "0 - Unknown"
+        case .newDeviceAvailable:
+            return "1 - New Device Available"
+        case .oldDeviceUnavailable:
+            return "2 - Old Device Unavailable"
+        case .categoryChange:
+            return "3 - Category Change"
+        case .override:
+            return "4 - Override"
+        case .wakeFromSleep:
+            return "6 - Wake From Sleep"
+        case .noSuitableRouteForCategory:
+            return "7 - No Suitable Route For Category"
+        case .routeConfigurationChange:
+            return "8 - Route Configuration Change"
+        @unknown default:
+            fatalError()
+        }
+    }
+}
+
