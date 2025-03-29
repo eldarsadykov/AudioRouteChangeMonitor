@@ -22,7 +22,6 @@ struct AudioRouteChange: Identifiable, Encodable, Hashable {
         self.currentRoute = currentRoute
     }
 
-    // Custom encoding method
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(createdAt, forKey: .createdAt)
@@ -31,13 +30,11 @@ struct AudioRouteChange: Identifiable, Encodable, Hashable {
         try container.encode(RouteDescription(from: currentRoute), forKey: .currentRoute)
     }
 
-    // Coding keys
     enum CodingKeys: String, CodingKey {
         case createdAt, reason, previousRoute, currentRoute
     }
 }
 
-// Helper struct to make AVAudioSessionRouteDescription encodable
 struct RouteDescription: Encodable {
     var inputs: [PortDescription]
     var outputs: [PortDescription]
@@ -48,7 +45,6 @@ struct RouteDescription: Encodable {
     }
 }
 
-// Encodable struct for AVAudioSessionPortDescription
 struct PortDescription: Encodable {
     var portName: String
     var portType: String
