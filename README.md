@@ -2,7 +2,7 @@
 
 ## Description
 
-A developer tool for monitoring audio route changes on iOS, such as switching to a different audio device or when a device becomes unavailable.
+A developer tool for monitoring [audio route changes](https://developer.apple.com/documentation/avfaudio/responding-to-audio-route-changes) on iOS, such as switching to a different audio device or when a device becomes unavailable.
 
 All route changes are recorded and viewable as a table on iPad or a list with expandable items on iPhone.
 
