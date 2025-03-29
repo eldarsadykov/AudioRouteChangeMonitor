@@ -9,15 +9,11 @@ import SwiftUI
 
 struct MainToolbarContent: ToolbarContent {
     @Binding var isShowingClearWarning: Bool
-    @Binding var routeChanges: [RouteChange]
-
+    @ObservedObject var routeChangesManager: RouteChangesManager
+    @State private var isShowingImporter: Bool = false
+    @State private var isShowingImporterError: Bool = false
+    @State private var importerErrorDescription: String?
     @Environment(\.openURL) private var openURL
-
-    var prettyString: String? {
-        guard let jsonData = try? JSONEncoder().encode(routeChanges) else { return nil }
-        let prettyJsonData = try? JSONSerialization.data(withJSONObject: try JSONSerialization.jsonObject(with: jsonData), options: .prettyPrinted)
-        return prettyJsonData.flatMap({ String(data: $0, encoding: .utf8) })
-    }
 
     var body: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
@@ -26,7 +22,7 @@ struct MainToolbarContent: ToolbarContent {
             }
             .alert("Clear all route changes?", isPresented: $isShowingClearWarning) {
                 Button(role: .destructive) {
-                    routeChanges = []
+                    routeChangesManager.routeChanges = []
                 } label: {
                     Text("Clear all")
                 }
@@ -41,10 +37,38 @@ struct MainToolbarContent: ToolbarContent {
                 Label("GitHub", image: "github.fill")
             }
         }
-        if let prettyString {
-            ToolbarItem(placement: .topBarTrailing) {
-                ShareLink(item: prettyString)
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                isShowingImporter.toggle()
+            } label: {
+                Label("Import JSON", systemImage: "square.and.arrow.down")
             }
+            .fileImporter(isPresented: $isShowingImporter, allowedContentTypes: [.json], allowsMultipleSelection: false, onCompletion: { results in
+                switch results {
+                case let .failure(error):
+                    print("Error selecting file \(error.localizedDescription)")
+
+                case let .success(fileURLs):
+                    let url = fileURLs[0]
+
+                    do {
+                        if url.startAccessingSecurityScopedResource() {
+                            try routeChangesManager.importFromJSONFile(url)
+                            url.stopAccessingSecurityScopedResource()
+                        }
+                    } catch {
+                        importerErrorDescription = error.localizedDescription
+                        isShowingImporterError = true
+                    }
+                }
+            })
+            .alert("Error importing JSON file", isPresented: $isShowingImporterError) {
+            } message: {
+                Text(importerErrorDescription ?? "No description.")
+            }
+        }
+        ToolbarItem(placement: .topBarTrailing) {
+            ShareLink(item: RouteChanges(routeChangesManager.routeChanges), preview: SharePreview("Share JSON"))
         }
     }
 }

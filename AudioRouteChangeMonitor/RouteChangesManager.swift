@@ -7,7 +7,7 @@
 
 import AVFoundation
 
-class RouteManager: ObservableObject {
+class RouteChangesManager: ObservableObject {
     @Published var routeChanges: [RouteChange] = []
 
     let audioSession = AVAudioSession.sharedInstance()
@@ -30,22 +30,21 @@ class RouteManager: ObservableObject {
         }
 
         #if targetEnvironment(simulator)
-            let jsonUrl = Bundle.main.url(forResource: "exampleData", withExtension: "json")
-            importFromJSONFile(jsonUrl!)
+            do {
+                let jsonUrl = Bundle.main.url(forResource: "exampleData", withExtension: "json")
+                try importFromJSONFile(jsonUrl!)
+            } catch {
+                print("Error decoding example data: \(error)")
+            }
         #endif
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange), name: AVAudioSession.routeChangeNotification, object: nil)
     }
 
-    func importFromJSONFile(_ url: URL) {
+    func importFromJSONFile(_ url: URL) throws {
         let decoder = JSONDecoder()
-        
-        do {
-            let data = try Data(contentsOf: url)
-            routeChanges = try decoder.decode([RouteChange].self, from: data)
-        } catch {
-            print("Error decoding RouteChange array: \(error)")
-        }
+        let data = try Data(contentsOf: url)
+        routeChanges = try decoder.decode(RouteChanges.self, from: data).routeChanges
     }
 
     @objc func handleRouteChange(notification: Notification) {

@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import SwiftUI
 
 struct RouteChange: Identifiable, Codable, Hashable {
     let id = UUID()
@@ -27,14 +28,14 @@ struct RouteChange: Identifiable, Codable, Hashable {
         try container.encode(previousRoute, forKey: .previousRoute)
         try container.encode(currentRoute, forKey: .currentRoute)
     }
-    
+
     init(from decoder: Decoder) throws {
-           let container = try decoder.container(keyedBy: CodingKeys.self)
-           createdAt = try container.decode(Date.self, forKey: .createdAt)
-           reasonDescription = try container.decode(String.self, forKey: .reason)
-           previousRoute = try container.decode(RouteDescription.self, forKey: .previousRoute)
-           currentRoute = try container.decode(RouteDescription.self, forKey: .currentRoute)
-       }
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        createdAt = try container.decode(Date.self, forKey: .createdAt)
+        reasonDescription = try container.decode(String.self, forKey: .reason)
+        previousRoute = try container.decode(RouteDescription.self, forKey: .previousRoute)
+        currentRoute = try container.decode(RouteDescription.self, forKey: .currentRoute)
+    }
 
     enum CodingKeys: String, CodingKey {
         case createdAt, reason, previousRoute, currentRoute
@@ -85,5 +86,19 @@ extension AVAudioSession.RouteChangeReason {
         @unknown default:
             fatalError()
         }
+    }
+}
+
+struct RouteChanges: Codable {
+    var routeChanges: [RouteChange]
+    init(_ routeChanges: [RouteChange]) {
+        self.routeChanges = routeChanges
+    }
+}
+
+extension RouteChanges: Transferable {
+    static var transferRepresentation: some TransferRepresentation {
+        CodableRepresentation(contentType: .json)
+            .suggestedFileName("routeChanges.json")
     }
 }
