@@ -1,0 +1,194 @@
+[
+  {
+    "currentRoute" : {
+      "outputs" : [
+        {
+          "portName" : "Speaker",
+          "uid" : "Speaker",
+          "portType" : "Speaker"
+        }
+      ],
+      "inputs" : [
+        {
+          "portType" : "MicrophoneBuiltIn",
+          "uid" : "Built-In Microphone",
+          "portName" : "iPhone Microphone"
+        }
+      ]
+    },
+    "previousRoute" : {
+      "outputs" : [
+        {
+          "uid" : "Speaker",
+          "portType" : "Speaker",
+          "portName" : "Speaker"
+        }
+      ],
+      "inputs" : [
+
+      ]
+    },
+    "reason" : "3 - Category Change",
+    "createdAt" : 764942797.429842
+  },
+  {
+    "currentRoute" : {
+      "inputs" : [
+        {
+          "uid" : "Built-In Microphone",
+          "portType" : "MicrophoneBuiltIn",
+          "portName" : "iPhone Microphone"
+        }
+      ],
+      "outputs" : [
+        {
+          "uid" : "AppleUSBAudioEngine:KTMicro:KT USB Audio:2021-07-19-0000-0000-0000-:1",
+          "portType" : "Headphones",
+          "portName" : "KT USB Audio"
+        }
+      ]
+    },
+    "previousRoute" : {
+      "inputs" : [
+        {
+          "uid" : "Built-In Microphone",
+          "portType" : "MicrophoneBuiltIn",
+          "portName" : "iPhone Microphone"
+        }
+      ],
+      "outputs" : [
+        {
+          "portType" : "Speaker",
+          "uid" : "Speaker",
+          "portName" : "Speaker"
+        }
+      ]
+    },
+    "reason" : "1 - New Device Available",
+    "createdAt" : 764942830.87836301
+  },
+  {
+    "currentRoute" : {
+      "outputs" : [
+        {
+          "uid" : "Speaker",
+          "portName" : "Speaker",
+          "portType" : "Speaker"
+        }
+      ],
+      "inputs" : [
+        {
+          "portName" : "iPhone Microphone",
+          "uid" : "Built-In Microphone",
+          "portType" : "MicrophoneBuiltIn"
+        }
+      ]
+    },
+    "previousRoute" : {
+      "inputs" : [
+        {
+          "uid" : "Built-In Microphone",
+          "portType" : "MicrophoneBuiltIn",
+          "portName" : "iPhone Microphone"
+        }
+      ],
+      "outputs" : [
+        {
+          "uid" : "AppleUSBAudioEngine:KTMicro:KT USB Audio:2021-07-19-0000-0000-0000-:1",
+          "portName" : "KT USB Audio",
+          "portType" : "Headphones"
+        }
+      ]
+    },
+    "reason" : "2 - Old Device Unavailable",
+    "createdAt" : 764942835.20279503
+  },
+  {
+    "currentRoute" : {
+      "inputs" : [
+
+      ],
+      "outputs" : [
+        {
+          "uid" : "Speaker",
+          "portName" : "Speaker",
+          "portType" : "Speaker"
+        }
+      ]
+    },
+    "previousRoute" : {
+      "outputs" : [
+        {
+          "uid" : "Speaker",
+          "portType" : "Speaker",
+          "portName" : "Speaker"
+        }
+      ],
+      "inputs" : [
+        {
+          "portName" : "iPhone Microphone",
+          "uid" : "Built-In Microphone",
+          "portType" : "MicrophoneBuiltIn"
+        }
+      ]
+    },
+    "reason" : "3 - Category Change",
+    "createdAt" : 764942843.37898803
+  },
+  {
+    "currentRoute" : {
+      "inputs" : [
+
+      ],
+      "outputs" : [
+        {
+          "portType" : "Headphones",
+          "uid" : "AppleUSBAudioEngine:KTMicro:KT USB Audio:2021-07-19-0000-0000-0000-:1",
+          "portName" : "KT USB Audio"
+        }
+      ]
+    },
+    "previousRoute" : {
+      "outputs" : [
+        {
+          "uid" : "Speaker",
+          "portType" : "Speaker",
+          "portName" : "Speaker"
+        }
+      ],
+      "inputs" : [
+
+      ]
+    },
+    "reason" : "1 - New Device Available",
+    "createdAt" : 764942858.335531
+  },
+  {
+    "currentRoute" : {
+      "outputs" : [
+        {
+          "uid" : "Speaker",
+          "portName" : "Speaker",
+          "portType" : "Speaker"
+        }
+      ],
+      "inputs" : [
+
+      ]
+    },
+    "previousRoute" : {
+      "outputs" : [
+        {
+          "portType" : "Headphones",
+          "uid" : "AppleUSBAudioEngine:KTMicro:KT USB Audio:2021-07-19-0000-0000-0000-:1",
+          "portName" : "KT USB Audio"
+        }
+      ],
+      "inputs" : [
+
+      ]
+    },
+    "reason" : "2 - Old Device Unavailable",
+    "createdAt" : 764942860.77607596
+  }
+]

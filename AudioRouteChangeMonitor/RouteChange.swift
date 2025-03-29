@@ -7,9 +7,9 @@
 
 import AVFoundation
 
-struct RouteChange: Identifiable, Encodable, Hashable {
-    let createdAt = Date()
+struct RouteChange: Identifiable, Codable, Hashable {
     let id = UUID()
+    var createdAt = Date()
     var reasonDescription: String
     var previousRoute: RouteDescription
     var currentRoute: RouteDescription
@@ -27,13 +27,21 @@ struct RouteChange: Identifiable, Encodable, Hashable {
         try container.encode(previousRoute, forKey: .previousRoute)
         try container.encode(currentRoute, forKey: .currentRoute)
     }
+    
+    init(from decoder: Decoder) throws {
+           let container = try decoder.container(keyedBy: CodingKeys.self)
+           createdAt = try container.decode(Date.self, forKey: .createdAt)
+           reasonDescription = try container.decode(String.self, forKey: .reason)
+           previousRoute = try container.decode(RouteDescription.self, forKey: .previousRoute)
+           currentRoute = try container.decode(RouteDescription.self, forKey: .currentRoute)
+       }
 
     enum CodingKeys: String, CodingKey {
         case createdAt, reason, previousRoute, currentRoute
     }
 }
 
-struct RouteDescription: Encodable, Equatable, Hashable {
+struct RouteDescription: Codable, Equatable, Hashable {
     var inputs: [PortDescription]
     var outputs: [PortDescription]
 
@@ -43,7 +51,7 @@ struct RouteDescription: Encodable, Equatable, Hashable {
     }
 }
 
-struct PortDescription: Encodable, Equatable, Hashable {
+struct PortDescription: Codable, Equatable, Hashable {
     var portName: String
     var portType: String
     var uid: String

@@ -29,7 +29,23 @@ class RouteManager: ObservableObject {
             fatalError("Failed to configure and activate session.")
         }
 
+        #if targetEnvironment(simulator)
+            let jsonUrl = Bundle.main.url(forResource: "exampleData", withExtension: "json")
+            importFromJSONFile(jsonUrl!)
+        #endif
+
         NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange), name: AVAudioSession.routeChangeNotification, object: nil)
+    }
+
+    func importFromJSONFile(_ url: URL) {
+        let decoder = JSONDecoder()
+        
+        do {
+            let data = try Data(contentsOf: url)
+            routeChanges = try decoder.decode([RouteChange].self, from: data)
+        } catch {
+            print("Error decoding RouteChange array: \(error)")
+        }
     }
 
     @objc func handleRouteChange(notification: Notification) {
