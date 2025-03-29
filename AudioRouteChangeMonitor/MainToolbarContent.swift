@@ -68,7 +68,7 @@ struct MainToolbarContent: ToolbarContent {
             }
         }
         ToolbarItem(placement: .topBarTrailing) {
-            ShareLink(item: RouteChanges(routeChangesManager.routeChanges), preview: SharePreview("Share JSON"))
+            ShareLink(item: RouteChanges(routeChangesManager.routeChanges), preview: SharePreview("Audio Route Changes JSON"))
         }
     }
 }
