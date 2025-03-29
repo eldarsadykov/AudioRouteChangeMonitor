@@ -6,7 +6,7 @@ A developer tool for monitoring audio route changes on iOS, such as switching to
 
 All route changes are recorded and viewable as a table on iPad or a list with expandable items on iPhone.
 
-The list can be cleared and shared as a JSON file.
+The list can be cleared, imported and exported as a JSON file. 
 
 You can download the app from the App Store for basic monitoring once it becomes available or build it locally from this repository for more advanced debugging scenarios.
 
@@ -25,5 +25,5 @@ Contributions are welcome! Feel free to fork this repository and submit pull req
 
 ## Screenshots
 
-![IMG_0281](https://github.com/user-attachments/assets/4a256dd2-055f-4535-b6e9-0a01cba030f0)
-![IMG_0280](https://github.com/user-attachments/assets/02cba23e-5e22-4c19-b47a-228d88a0fc0c)
+![Simulator Screenshot - iPad Pro 13-inch (M4) - 2025-03-29 at 17 00 32](https://github.com/user-attachments/assets/98808b4e-575e-426c-b49d-d227373a012c)
+![Simulator Screenshot - iPad Pro 13-inch (M4) - 2025-03-29 at 17 00 39](https://github.com/user-attachments/assets/b0e1c72e-52f9-4f1e-b4df-786a7d474492)
