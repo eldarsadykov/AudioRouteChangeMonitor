@@ -46,7 +46,7 @@ struct ContentView: View {
                             selection = nil
                         }
                 }
-                .onChange(of: selection) { _, newValue in
+                .onChange(of: selection) { newValue in
                     if let newValue,
                        let audioRouteChange = (audioRouteManager.routeChanges.first { routeChange in
                            routeChange.id == newValue
