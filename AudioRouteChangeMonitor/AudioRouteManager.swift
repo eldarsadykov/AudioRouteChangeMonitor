@@ -84,13 +84,14 @@ class AudioRouteManager: ObservableObject {
 
     init() {
         setCategory()
-        NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange),
-                                               name: AVAudioSession.routeChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange), name: AVAudioSession.routeChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleInterruptionNotification), name: AVAudioSession.interruptionNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleMediaServicesWereLostNotification), name: AVAudioSession.mediaServicesWereLostNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleMediaServicesWereResetNotification), name: AVAudioSession.mediaServicesWereResetNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleRenderingCapabilitiesChangeNotification), name: AVAudioSession.renderingCapabilitiesChangeNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleRenderingModeChangeNotification), name: AVAudioSession.renderingModeChangeNotification, object: nil)
+        if #available(iOS 17.2, *) {
+            NotificationCenter.default.addObserver(self, selector: #selector(handleRenderingCapabilitiesChangeNotification), name: AVAudioSession.renderingCapabilitiesChangeNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(handleRenderingModeChangeNotification), name: AVAudioSession.renderingModeChangeNotification, object: nil)
+        }
         NotificationCenter.default.addObserver(self, selector: #selector(handleSilenceSecondaryAudioHintNotification), name: AVAudioSession.silenceSecondaryAudioHintNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleSpatialPlaybackCapabilitiesChangedNotification), name: AVAudioSession.spatialPlaybackCapabilitiesChangedNotification, object: nil)
 
