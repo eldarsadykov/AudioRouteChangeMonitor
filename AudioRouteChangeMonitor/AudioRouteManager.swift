@@ -8,7 +8,7 @@
 import AVFoundation
 
 class AudioRouteManager: ObservableObject {
-    @Published var routeChanges = Array<AudioRouteChange>()
+    @Published var routeChanges: [AudioRouteChange] = []
 
     let audioSession = AVAudioSession.sharedInstance()
 
@@ -43,7 +43,11 @@ class AudioRouteManager: ObservableObject {
 
         let currentRoute = audioSession.currentRoute
 
-        let routeChange = AudioRouteChange(reason, previousRoute, currentRoute)
+        let routeChange = AudioRouteChange(
+            reason.description,
+            RouteDescription(from: previousRoute),
+            RouteDescription(from: currentRoute)
+        )
         routeChanges.append(routeChange)
     }
 }

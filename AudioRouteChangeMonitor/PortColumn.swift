@@ -9,9 +9,9 @@ import AVFAudio
 import SwiftUI
 
 struct PortColumn: View {
-    var port: AVAudioSessionPortDescription?
+    var port: PortDescription?
 
-    init(_ port: AVAudioSessionPortDescription? = nil) {
+    init(_ port: PortDescription? = nil) {
         self.port = port
     }
 
@@ -19,7 +19,7 @@ struct PortColumn: View {
         VStack(alignment: .leading) {
             Text(port?.portName ?? "N/A")
                 .font(.body)
-            Text("Type: " + (port?.portType.rawValue ?? "N/A"))
+            Text("Type: " + (port?.portType ?? "N/A"))
             Text("UID: " + (port?.uid ?? "N/A"))
         }
         .font(.caption)

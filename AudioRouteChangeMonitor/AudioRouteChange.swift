@@ -10,12 +10,12 @@ import AVFoundation
 struct AudioRouteChange: Identifiable, Encodable, Hashable {
     let createdAt = Date()
     let id = UUID()
-    var reason: AVAudioSession.RouteChangeReason
-    var previousRoute: AVAudioSessionRouteDescription
-    var currentRoute: AVAudioSessionRouteDescription
+    var reasonDescription: String
+    var previousRoute: RouteDescription
+    var currentRoute: RouteDescription
 
-    init(_ reason: AVAudioSession.RouteChangeReason, _ previousRoute: AVAudioSessionRouteDescription, _ currentRoute: AVAudioSessionRouteDescription) {
-        self.reason = reason
+    init(_ reasonDescription: String, _ previousRoute: RouteDescription, _ currentRoute: RouteDescription) {
+        self.reasonDescription = reasonDescription
         self.previousRoute = previousRoute
         self.currentRoute = currentRoute
     }
@@ -23,9 +23,9 @@ struct AudioRouteChange: Identifiable, Encodable, Hashable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(createdAt, forKey: .createdAt)
-        try container.encode(reason.description, forKey: .reason)
-        try container.encode(RouteDescription(from: previousRoute), forKey: .previousRoute)
-        try container.encode(RouteDescription(from: currentRoute), forKey: .currentRoute)
+        try container.encode(reasonDescription, forKey: .reason)
+        try container.encode(previousRoute, forKey: .previousRoute)
+        try container.encode(currentRoute, forKey: .currentRoute)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -35,13 +35,13 @@ struct AudioRouteChange: Identifiable, Encodable, Hashable {
 
 extension AudioRouteChange: Equatable {
     static func == (lhs: Self, rhs: Self) -> Bool {
-        let reasonsMatch = lhs.reason == rhs.reason
+        let reasonsDescriptionsMatch = lhs.reasonDescription == rhs.reasonDescription
         let previousRouteInputsMatch = lhs.previousRoute.inputs.first?.uid == rhs.previousRoute.inputs.first?.uid
         let previousRouteOutputsMatch = lhs.previousRoute.outputs.first?.uid == rhs.previousRoute.outputs.first?.uid
         let currentRouteInputsMatch = lhs.currentRoute.inputs.first?.uid == rhs.currentRoute.inputs.first?.uid
         let currentRouteOutputsMatch = lhs.currentRoute.outputs.first?.uid == rhs.currentRoute.outputs.first?.uid
         return
-            reasonsMatch &&
+            reasonsDescriptionsMatch &&
             previousRouteInputsMatch &&
             previousRouteOutputsMatch &&
             currentRouteInputsMatch &&
@@ -49,7 +49,7 @@ extension AudioRouteChange: Equatable {
     }
 }
 
-struct RouteDescription: Encodable {
+struct RouteDescription: Encodable, Equatable, Hashable {
     var inputs: [PortDescription]
     var outputs: [PortDescription]
 
@@ -59,7 +59,7 @@ struct RouteDescription: Encodable {
     }
 }
 
-struct PortDescription: Encodable {
+struct PortDescription: Encodable, Equatable, Hashable {
     var portName: String
     var portType: String
     var uid: String
@@ -95,4 +95,3 @@ extension AVAudioSession.RouteChangeReason {
         }
     }
 }
-

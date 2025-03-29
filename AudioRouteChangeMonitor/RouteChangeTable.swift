@@ -14,7 +14,7 @@ struct RouteChangeTable: View {
         Table(routeChanges, selection: $selection) {
             TableColumn("Reason") { routeChange in
                 VStack(alignment: .leading) {
-                    Text(routeChange.reason.description)
+                    Text(routeChange.reasonDescription)
                         .font(.body)
                     Text(routeChange.createdAt.description)
                         .foregroundStyle(.secondary)

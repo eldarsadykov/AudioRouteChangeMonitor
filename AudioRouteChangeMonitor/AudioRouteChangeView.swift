@@ -11,10 +11,10 @@ import SwiftUI
 struct AudioRouteChangeView: View {
     let routeChange: AudioRouteChange
 
-    var previousInput: AVAudioSessionPortDescription? { routeChange.previousRoute.inputs.first }
-    var previousOutput: AVAudioSessionPortDescription? { routeChange.previousRoute.outputs.first }
-    var currentInput: AVAudioSessionPortDescription? { routeChange.currentRoute.inputs.first }
-    var currentOutput: AVAudioSessionPortDescription? { routeChange.currentRoute.outputs.first }
+    var previousInput: PortDescription? { routeChange.previousRoute.inputs.first }
+    var previousOutput: PortDescription? { routeChange.previousRoute.outputs.first }
+    var currentInput: PortDescription? { routeChange.currentRoute.inputs.first }
+    var currentOutput: PortDescription? { routeChange.currentRoute.outputs.first }
 
     var body: some View {
         Form {
@@ -22,7 +22,7 @@ struct AudioRouteChangeView: View {
                 Text(routeChange.createdAt.description)
             }
             Section("Reason") {
-                Text(routeChange.reason.description)
+                Text(routeChange.reasonDescription)
             }
             AudioRouteChangePortView(label: "Previous Input", port: previousInput)
             AudioRouteChangePortView(label: "Previous Output", port: previousOutput)
@@ -34,11 +34,11 @@ struct AudioRouteChangeView: View {
 
 struct AudioRouteChangePortView: View {
     let label: String
-    let port: AVAudioSessionPortDescription?
+    let port: PortDescription?
     var body: some View {
         Section(label) {
             Text("Name: \(port?.portName ?? "N/A")")
-            Text("Port Type: \(port?.portType.rawValue ?? "N/A")")
+            Text("Port Type: \(port?.portType ?? "N/A")")
             Text("UID: \(port?.uid ?? "N/A")")
         }
     }
