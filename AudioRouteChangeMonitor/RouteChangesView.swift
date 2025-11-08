@@ -26,16 +26,14 @@ struct RouteChangesView: View {
                             selection = nil
                         }
                 }
-                .onChange(of: selection, perform: onSelectionChange)
-        }
-    }
-    
-    func onSelectionChange(_ newValue: RouteChange.ID?) {
-        if let newValue,
-           let audioRouteChange = (routeChangesManager.routeChanges.first { routeChange in
-               routeChange.id == newValue
-           }) {
-            path.append(audioRouteChange)
+                .onChange(of: selection) { oldValue, newValue in
+                    if let newValue,
+                       let audioRouteChange = (routeChangesManager.routeChanges.first { routeChange in
+                           routeChange.id == newValue
+                       }) {
+                        path.append(audioRouteChange)
+                    }
+                }
         }
     }
 }
