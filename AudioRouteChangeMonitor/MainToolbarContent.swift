@@ -28,7 +28,8 @@ struct MainToolbarContent: ToolbarContent {
                 }
             }
         }
-        ToolbarItem(placement: .topBarTrailing) {
+
+        ToolbarItem(placement: .automatic) {
             Button {
                 if let url = URL(string: "https://github.com/eldarsadykov/AudioRouteChangeMonitor") {
                     openURL(url)
@@ -37,7 +38,10 @@ struct MainToolbarContent: ToolbarContent {
                 Label("GitHub", image: "github.fill")
             }
         }
-        ToolbarItem(placement: .topBarTrailing) {
+        if #available(iOS 26.0, *) {
+            ToolbarSpacer(.fixed)
+        }
+        ToolbarItemGroup(placement: .topBarTrailing) {
             Button {
                 isShowingImporter.toggle()
             } label: {
@@ -66,8 +70,7 @@ struct MainToolbarContent: ToolbarContent {
             } message: {
                 Text(importerErrorDescription ?? "No description.")
             }
-        }
-        ToolbarItem(placement: .topBarTrailing) {
+
             ShareLink(item: RouteChanges(routeChangesManager.routeChanges), preview: SharePreview("Audio Route Changes JSON"))
         }
     }
