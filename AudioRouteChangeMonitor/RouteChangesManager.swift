@@ -19,7 +19,7 @@ class RouteChangesManager: ObservableObject {
                 options: [
                     .mixWithOthers,
                     .defaultToSpeaker,
-                    .allowBluetooth,
+                    .allowBluetoothHFP,
                     .allowAirPlay,
                     .allowBluetoothA2DP,
                 ]
